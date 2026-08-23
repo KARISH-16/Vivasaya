@@ -7,9 +7,8 @@ import {
 } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { LANGUAGES } from '../i18n';
-
-type LanguageCode = 'en' | 'ta' | 'hi';
+import type { LanguageCode } from '@/types';
+import { LANGUAGES } from './i18n';
 
 interface LanguageContextValue {
   language: LanguageCode;
@@ -29,14 +28,10 @@ export function LanguageProvider({
   const { i18n } = useTranslation();
 
   const [language, setLanguageState] = useState<LanguageCode>(() => {
-    const savedLanguage = localStorage.getItem('vivasaya-lang');
+    const saved = localStorage.getItem('vivasaya-lang');
 
-    if (
-      savedLanguage === 'en' ||
-      savedLanguage === 'ta' ||
-      savedLanguage === 'hi'
-    ) {
-      return savedLanguage;
+    if (saved === 'ta' || saved === 'hi' || saved === 'en') {
+      return saved;
     }
 
     return 'en';
@@ -68,13 +63,13 @@ export function LanguageProvider({
 }
 
 export function useLanguage() {
-  const context = useContext(LanguageContext);
+  const ctx = useContext(LanguageContext);
 
-  if (!context) {
+  if (!ctx) {
     throw new Error(
       'useLanguage must be used within LanguageProvider'
     );
   }
 
-  return context;
+  return ctx;
 }
