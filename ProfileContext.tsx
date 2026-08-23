@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
-import { supabase } from '@/services/supabase';
+import { supabase } from './supabase';
 import { useAuth } from './AuthContext';
 import type { FarmerProfile, LanguageCode, FarmerType } from '@/types';
 
