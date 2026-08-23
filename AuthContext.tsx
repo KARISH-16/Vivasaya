@@ -1,12 +1,16 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { Session } from '@supabase/supabase-js';
-import { supabase } from '@/services/supabase';
+import { supabase } from './supabase';
 
 interface AuthContextValue {
   session: Session | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<{ error: string | null }>;
-  signUp: (email: string, password: string, metadata: Record<string, unknown>) => Promise<{ error: string | null }>;
+  signUp: (
+    email: string,
+    password: string,
+    metadata: Record<string, unknown>
+  ) => Promise<{ error: string | null }>;
   signOut: () => Promise<void>;
 }
 
@@ -22,25 +26,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     });
 
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, sess) => {
-      setSession(sess);
-    });
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, sess) => {
+        setSession(sess);
+      }
+    );
 
     return () => listener.subscription.unsubscribe();
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return { error: error?.message ?? null };
+    const { error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+
+    return {
+      error: error?.message ?? null,
+    };
   };
 
-  const signUp = async (email: string, password: string, metadata: Record<string, unknown>) => {
+  const signUp = async (
+    email: string,
+    password: string,
+    metadata: Record<string, unknown>
+  ) => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: metadata },
+      options: {
+        data: metadata,
+      },
     });
-    return { error: error?.message ?? null };
+
+    return {
+      error: error?.message ?? null,
+    };
   };
 
   const signOut = async () => {
@@ -48,7 +69,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ session, loading, signIn, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{
+        session,
+        loading,
+        signIn,
+        signUp,
+        signOut,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -56,6 +85,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used within AuthProvider');
+
+  if (!ctx) {
+    throw new Error('useAuth must be used within AuthProvider');
+  }
+
   return ctx;
 }
