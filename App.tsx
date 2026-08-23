@@ -1,23 +1,27 @@
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { AuthProvider, useAuth } from '@/contexts/AuthContext';
-import { LanguageProvider } from '@/contexts/LanguageContext';
-import { NetworkProvider } from '@/contexts/NetworkContext';
-import { NotificationProvider } from '@/contexts/NotificationContext';
-import { ProfileProvider } from '@/contexts/ProfileContext';
-import AppLayout from '@/layouts/AppLayout';
-import LandingPage from '@/pages/LandingPage';
-import LoginPage from '@/pages/LoginPage';
-import RegisterPage from '@/pages/RegisterPage';
-import DashboardPage from '@/pages/DashboardPage';
-import AssistantPage from '@/pages/AssistantPage';
-import WeatherPage from '@/pages/WeatherPage';
-import CropPage from '@/pages/CropPage';
-import WhatIfPage from '@/pages/WhatIfPage';
-import SchemesPage from '@/pages/SchemesPage';
-import AnalyticsPage from '@/pages/AnalyticsPage';
-import ProfilePage from '@/pages/ProfilePage';
-import SettingsPage from '@/pages/SettingsPage';
-import EmergencyPage from '@/pages/EmergencyPage';
+
+import { AuthProvider, useAuth } from './AuthContext';
+import { LanguageProvider } from './LanguageContext';
+import { NetworkProvider } from './NetworkContext';
+import { NotificationProvider } from './NotificationContext';
+import { ProfileProvider } from './ProfileContext';
+
+import AppLayout from './AppLayout';
+
+import LandingPage from './LandingPage';
+import LoginPage from './LoginPage';
+import RegisterPage from './RegisterPage';
+import DashboardPage from './DashboardPage';
+import AssistantPage from './AssistantPage';
+import WeatherPage from './WeatherPage';
+import CropPage from './CropPage';
+import WhatIfPage from './WhatIfPage';
+import SchemesPage from './SchemesPage';
+import AnalyticsPage from './AnalyticsPage';
+import ProfilePage from './ProfilePage';
+import SettingsPage from './SettingsPage';
+import EmergencyPage from './EmergencyPage';
+
 import type { ReactNode } from 'react';
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
@@ -32,8 +36,10 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
     );
   }
 
-  // Allow demo profile (set via window.__setDemoProfile) to access app routes
-  const hasDemoProfile = !!(window as unknown as { __setDemoProfile?: unknown }).__setDemoProfile;
+  const hasDemoProfile = !!(
+    window as unknown as { __setDemoProfile?: unknown }
+  ).__setDemoProfile;
+
   if (!session && !hasDemoProfile) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
@@ -47,6 +53,7 @@ function AppRoutes() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+
       <Route
         path="/app"
         element={
@@ -57,6 +64,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/dashboard"
         element={
@@ -67,6 +75,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/assistant"
         element={
@@ -77,6 +86,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/weather"
         element={
@@ -87,6 +97,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/crop"
         element={
@@ -97,6 +108,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/what-if"
         element={
@@ -107,6 +119,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/schemes"
         element={
@@ -117,6 +130,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/analytics"
         element={
@@ -127,6 +141,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/profile"
         element={
@@ -137,6 +152,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/settings"
         element={
@@ -147,6 +163,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route
         path="/app/emergency"
         element={
@@ -157,6 +174,7 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
