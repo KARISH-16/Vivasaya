@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Thermometer, CloudRain, Droplets, Wind, RefreshCw, Sun, Cloud, CloudDrizzle, CloudLightning } from 'lucide-react';
-import { useProfile } from '@/contexts/ProfileContext';
+import { useProfile } from './ProfileContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { generateDemoWeather, weatherRiskScore, getLocalizedCondition } from '@/services/weather';
 import { riskCategoryFromScore } from '@/services/riskEngine';
